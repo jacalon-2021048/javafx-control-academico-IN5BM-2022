@@ -25,7 +25,9 @@ import javafx.scene.control.CheckBox;
 import com.jfoenix.controls.JFXTimePicker;
 import java.time.format.FormatStyle;
 import java.util.Locale;
+import java.util.Optional;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -186,17 +188,100 @@ public class HorariosController implements Initializable{
 
     @FXML
     void clicCambiar(ActionEvent ae){
-        
+        switch(operacion){
+            case NINGUNO:
+                if(existeElementoSeleccionado()){
+                    habilitarCampos();
+                    btnCambiar.setText("Guardar");
+                    imgCambiar.setImage(new Image(PAQUETE_IMAGES+"guardar.png"));
+                    btnEliminar.setText("Cancelar");
+                    imgEliminar.setImage(new Image(PAQUETE_IMAGES+"cancelar.png"));
+                    btnAgregar.setDisable(true);
+                    btnReporte.setDisable(true);
+                    operacion=Operacion.ACTUALIZAR;
+                }else{
+                    alertasWarning("Antes de continuar seleccione un registro");
+                }                
+                break;
+                
+            case GUARDAR:
+                btnAgregar.setText("Agregar");
+                imgAgregar.setImage(new Image(PAQUETE_IMAGES+"agregar.png"));
+                btnCambiar.setText("Cambiar");
+                imgCambiar.setImage(new Image(PAQUETE_IMAGES+"modificar.png"));
+                btnEliminar.setDisable(false);
+                btnReporte.setDisable(false);
+                tblHorarios.setDisable(false);
+                limpiarLabel();
+                limpiarCampos();
+                deshabilitarCampos();
+                operacion=Operacion.NINGUNO;
+                break;
+                
+            case ACTUALIZAR:
+                if(existeElementoSeleccionado()){
+                    if(evaluacionCamposVacios()){
+                        //ESPACIO PARA EL METODO MODIFICAR
+                    }else{
+                        camposObligatorios();
+                    }
+                }
+                
+                break;
+        }
     }
     
     @FXML
     void clicEliminar(ActionEvent ae){
-        
+        switch(operacion){
+            case NINGUNO:
+                if(existeElementoSeleccionado()){
+                    Alert alerta=new Alert(Alert.AlertType.CONFIRMATION);
+                    alerta.setTitle("Control Académico - Confirmación");
+                    alerta.setHeaderText(null);
+                    alerta.setContentText("¿Desea eliminar este registro?");
+                    Stage stage=(Stage) alerta.getDialogPane().getScene().getWindow();
+                    Image icon=new Image(PAQUETE_IMAGES+"icono.png");
+                    stage.getIcons().add(icon);
+                    Optional<ButtonType> result=alerta.showAndWait();
+                    if(result.get().equals(ButtonType.OK)){
+                        //ESPACIO PARA ELIMINAR HORARIOS                        
+                    }else if(result.get().equals(ButtonType.CANCEL)){
+                        alerta.close();
+                        tblHorarios.getSelectionModel().clearSelection();
+                        limpiarCampos();
+                    }
+                }else{
+                    alertasWarning("Antes de continuar selecciona un registro");
+                }
+                break;
+                
+            case ACTUALIZAR:
+                btnCambiar.setText("Cambiar");
+                imgCambiar.setImage(new Image(PAQUETE_IMAGES+"modificar.png"));
+                btnEliminar.setText("Eliminar");
+                imgEliminar.setImage(new Image(PAQUETE_IMAGES+"eliminar.png"));
+                btnAgregar.setDisable(false);
+                btnReporte.setDisable(false);
+                limpiarCampos();
+                limpiarLabel();
+                deshabilitarCampos();
+                tblHorarios.getSelectionModel().clearSelection();
+                operacion=Operacion.NINGUNO;
+                break;
+        }
     }
 
     @FXML
     void clicReporte(ActionEvent ae){
-        
+        Alert alerta=new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Control Academico - AVISO!!!");
+        alerta.setHeaderText(null);
+        alerta.setContentText("Esta opcion solo esta disponible en la version premium");
+        alerta.show();
+        Stage stage=(Stage) alerta.getDialogPane().getScene().getWindow();
+        Image ico=new Image(PAQUETE_IMAGES+"icono.png");
+        stage.getIcons().add(ico);
     }
 
     @FXML
@@ -260,6 +345,14 @@ public class HorariosController implements Initializable{
         return false;
     }
     
+    /*private boolean actualizarHorario(){
+        
+    }*/
+    
+    /*private boolean eliminarHorario(){
+        
+    }*/
+    
     private byte enviarDatosBD(boolean a){
         if(a==true){
             return 1;
@@ -282,8 +375,8 @@ public class HorariosController implements Initializable{
             while(rs.next()){
                 Horarios horarios=new Horarios();
                 horarios.setId(rs.getInt(1));
-                horarios.setHorarioInicio(evaluacionesHorarios(rs,2));
-                horarios.setHorarioFinal(evaluacionesHorarios(rs,3));
+                horarios.setHorarioInicio(rs.getTime(2).toLocalTime());
+                horarios.setHorarioFinal(rs.getTime(3).toLocalTime());
                 horarios.setLunes(evaluacionDatos(rs,4));
                 horarios.setMartes(evaluacionDatos(rs,5));
                 horarios.setMiercoles(evaluacionDatos(rs,6));
@@ -314,10 +407,6 @@ public class HorariosController implements Initializable{
         return (rs.getByte(i)==1);
     }
     
-    private LocalTime evaluacionesHorarios(ResultSet rs,int i) throws SQLException{
-        return (rs.getTime(i).toLocalTime());
-    }
-    
     private void iniciarTimePicker(){
         tpHorarioFinal.set24HourView(false);
         tpHorarioInicio.set24HourView(false);
@@ -330,6 +419,18 @@ public class HorariosController implements Initializable{
                 =new LocalTimeStringConverter(FormatStyle.SHORT,Locale.US);
         tpHorarioInicio.setConverter(defaultConverter2);
     }
+    
+    private void alertasWarning(String mensaje){
+        Alert alerta=new Alert(Alert.AlertType.WARNING);
+        alerta.setTitle("Control Académico - AVISO!!!");
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.show();
+        Stage stage=(Stage) alerta.getDialogPane().getScene().getWindow();
+        Image ico=new Image(PAQUETE_IMAGES+"icono.png");
+        stage.getIcons().add(ico);
+    }
+    
     
     private void cargarDatos(){
         tblHorarios.setItems(getHorarios());
