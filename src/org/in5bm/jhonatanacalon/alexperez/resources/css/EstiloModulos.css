@@ -1,0 +1,30 @@
+/**
+ *
+ * @author Jhonatan Jose Acalón Ajanel <jacalon-2021048@kinal.edu.gt>
+ * @author Alex Gabriel Pérez Dubon <aperez-2021095@kinal.edu.gt>
+ * @date 26/04/2022
+ * @time 17:49:24
+ * @codigo IN5BM
+ * @jornada Matutina
+ * @grupo 1
+ */
+
+#panel-navegacion{
+    -fx-background-color:#0A0B37;
+}
+
+#panel-entidad{
+    -fx-background-color:#C8C8D2;
+    -fx-background-radius:0 0 50 50;
+}
+
+.botones-crud{
+    -fx-background-color:#0A0B37;
+    -fx-text-fill:#FFFFFF;
+}
+
+.botones-crud:hover{
+    -fx-background-color:#C8C8D2;
+    -fx-background-radius:30 30 30 30;
+    -fx-text-fill:#000000;
+}
