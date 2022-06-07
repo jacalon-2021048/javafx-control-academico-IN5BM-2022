@@ -40,9 +40,6 @@ import org.in5bm.jhonatanacalon.alexperez.system.Principal;
  * @grupo 1
  */
 public class AsignacionesAlumnosController implements Initializable{
-
-    @FXML
-    private DatePicker dpkFechaAsignacion;
     private enum Operacion{
         NINGUNO,GUARDAR,ACTUALIZAR
     }
@@ -90,12 +87,6 @@ public class AsignacionesAlumnosController implements Initializable{
     
     @FXML
     private TableView<AsignacionesAlumnos> tblAsignaciones;
-
-    @FXML
-    private TableColumn<Alumnos,String> colNombreAlumno;
-    
-    @FXML
-    private TableColumn colNombreCurso;
     
     @FXML
     private TableColumn<AsignacionesAlumnos,Integer> colId;
@@ -108,6 +99,9 @@ public class AsignacionesAlumnosController implements Initializable{
     
     @FXML
     private TableColumn<AsignacionesAlumnos,LocalDate> colFechaAsignacion;
+    
+    @FXML
+    private DatePicker dpkFechaAsignacion;
     
     private ObservableList<AsignacionesAlumnos> listaAsignaciones;
     
@@ -125,25 +119,30 @@ public class AsignacionesAlumnosController implements Initializable{
         escenarioPrincipal.mostrarEscenaPrincipal();
     }
     
-    /*private ObservableList getAsignaciones(){
+    private ObservableList getAsignaciones(){
         ArrayList<AsignacionesAlumnos> lista=new ArrayList<>();
         PreparedStatement pstmt=null;
         ResultSet rs=null;
         
         try{
-           pstmt=Conexion.getInstance().getConexion().prepareCall("CALL sp_asignaciones_alumnos_read()");
+           pstmt=Conexion.getInstance().getConexion().prepareCall("{CALL sp_asignaciones_alumnos_read()}");
            rs=pstmt.executeQuery();
+            System.out.println(pstmt.toString());
             while(rs.next()){
                 AsignacionesAlumnos asignaciones=new AsignacionesAlumnos();
-                asignaciones.setId(rs.getString(1));
+                asignaciones.setId(rs.getInt(1));
                 asignaciones.setAlumnoId(rs.getString(2));
                 asignaciones.setCursoId(rs.getInt(3));
-                asignaciones.setFechaAsignacion(rs.getTimestamp(4));                
+                asignaciones.setFechaAsignacion(rs.getDate(4).toLocalDate());
+                System.out.println(asignaciones.toString());
                 lista.add(asignaciones);
             }          
             listaAsignaciones=FXCollections.observableArrayList(lista);
         }catch(SQLException e){
             System.err.println("\nSe produjo un error al consultar la tabla de Asignaciones Alumnos");
+            System.out.println("Message: " + e.getMessage());
+            System.out.println("Error code: " + e.getErrorCode());
+            System.out.println("SQLState: " + e.getSQLState());
             e.printStackTrace();
         }catch(Exception e){
             e.printStackTrace();
@@ -158,14 +157,16 @@ public class AsignacionesAlumnosController implements Initializable{
             }
         }
         return listaAsignaciones;
-    }*/
+    }
     
     private void cargarDatos(){
-        //tblAsignaciones.setItems(getAsignaciones());
-        colId.setCellValueFactory(new PropertyValueFactory<AsignacionesAlumnos,Integer>("id"));
-        colIdAlumno.setCellValueFactory(new PropertyValueFactory<AsignacionesAlumnos,String>("alumnoId"));
-        colIdCurso.setCellValueFactory(new PropertyValueFactory<AsignacionesAlumnos,Integer>("cursoId"));
-        colFechaAsignacion.setCellValueFactory(new PropertyValueFactory<AsignacionesAlumnos,LocalDate>("fechaAsignacion"));
+        tblAsignaciones.setItems(getAsignaciones());
+        colId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        colIdAlumno.setCellValueFactory(new PropertyValueFactory<>("alumnoId"));
+        colIdCurso.setCellValueFactory(new PropertyValueFactory<>("cursoId"));
+        colFechaAsignacion.setCellValueFactory(new PropertyValueFactory<>("fechaAsignacion"));
+        
+        cmbAlumnoId.setItems(getAlumnos());
     }
     
     public Principal getEscenarioPrincipal(){
@@ -197,6 +198,48 @@ public class AsignacionesAlumnosController implements Initializable{
         txtId.setEditable(false);
         cmbCurso.setEditable(false);
         
+    }
+    
+    private ObservableList getAlumnos(){
+        ArrayList<Alumnos> lista=new ArrayList<>();
+        PreparedStatement pstmt=null;
+        ResultSet rs=null;
+        
+        try{
+            pstmt=Conexion.getInstance().getConexion()
+                    .prepareCall("{CALL sp_alumnos_read()}");
+            System.out.println(pstmt.toString());
+            rs=pstmt.executeQuery();
+            while(rs.next()){                
+                Alumnos alumno=new Alumnos();
+                alumno.setCarne(rs.getString(1));
+                alumno.setNombre1(rs.getString(2));
+                alumno.setNombre2(rs.getString(3));
+                alumno.setNombre3(rs.getString(4));
+                alumno.setApellido1(rs.getString(5));
+                alumno.setApellido2(rs.getString(6));
+                lista.add(alumno);
+            }
+            listaAlumnos=FXCollections.observableArrayList(lista);
+        }catch(SQLException e){
+            System.err.println("\nSe produjo un error al consultar la tabla de Alumnos\n");
+            System.out.println("Message: " + e.getMessage());
+            System.out.println("Error code: " + e.getErrorCode());
+            System.out.println("SQLState: " + e.getSQLState());
+            e.printStackTrace();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if((rs != null) && (pstmt!=null)){
+                    rs.close();
+                    pstmt.close();
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return listaAlumnos;
     }
     
 }

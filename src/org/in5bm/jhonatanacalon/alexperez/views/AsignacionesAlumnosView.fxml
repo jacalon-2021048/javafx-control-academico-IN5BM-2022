@@ -164,20 +164,20 @@
                               <Insets left="55.0" />
                            </GridPane.margin>
                         </Label>
-                        <ComboBox fx:id="cmbAlumnoId" disable="true" editable="true" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                        <ComboBox fx:id="cmbCurso" disable="true" prefWidth="150.0" GridPane.columnIndex="3" />
+                        <ComboBox fx:id="cmbAlumnoId" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <ComboBox fx:id="cmbCurso" prefWidth="150.0" GridPane.columnIndex="3" />
                         <Label text="Fecha Asignacion:" GridPane.columnIndex="2" GridPane.rowIndex="1">
                            <font>
                               <Font name="Georgia" size="14.0" />
                            </font>
                         </Label>
-                        <DatePicker fx:id="dpkFechaAsignacion" editable="false" prefHeight="31.0" prefWidth="167.0" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                        <DatePicker fx:id="dpkFechaAsignacion" editable="false" GridPane.columnIndex="3" GridPane.rowIndex="1" />
                         <Label text="ID:">
                            <font>
                               <Font name="Georgia" size="14.0" />
                            </font>
                         </Label>
-                        <TextField fx:id="txtId" GridPane.columnIndex="1" />
+                        <TextField fx:id="txtId" prefHeight="26.0" prefWidth="150.0" GridPane.columnIndex="1" />
                      </children>
                   </GridPane>
                   <ImageView fx:id="imgRegresar" fitHeight="55.0" fitWidth="55.0" layoutX="769.0" layoutY="607.0" onMouseClicked="#clicRegresar" pickOnBounds="true" preserveRatio="true">
@@ -189,9 +189,7 @@
                     <columns>
                       <TableColumn fx:id="colId" maxWidth="65.0" minWidth="65.0" prefWidth="65.0" text="ID" />
                       <TableColumn fx:id="colIdAlumno" maxWidth="149.0" minWidth="149.0" prefWidth="149.0" text="ID Alumno" />
-                        <TableColumn fx:id="colNombreAlumno" maxWidth="149.0" minWidth="149.0" prefWidth="149.0" text="Nombre Alumno" />
                         <TableColumn fx:id="colIdCurso" maxWidth="149.0" minWidth="149.0" prefWidth="149.0" text="ID Curso" />
-                        <TableColumn fx:id="colNombreCurso" maxWidth="149.0" minWidth="149.0" prefWidth="149.0" text="Nombre Curso" />
                         <TableColumn fx:id="colFechaAsignacion" maxWidth="149.0" minWidth="149.0" prefWidth="149.0" text="Fecha Asignación" />
                     </columns>
                   </TableView>

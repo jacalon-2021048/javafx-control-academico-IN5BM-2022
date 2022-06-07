@@ -447,7 +447,7 @@ public class AlumnosController implements Initializable{
     }
 
     private ObservableList getAlumnos(){
-        ArrayList<Alumnos> lista=new ArrayList<>();        
+        ArrayList<Alumnos> lista=new ArrayList<>();
         PreparedStatement pstmt=null;
         ResultSet rs=null;
         
