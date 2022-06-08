@@ -133,7 +133,7 @@ public class AsignacionesAlumnosController implements Initializable{
                 asignaciones.setId(rs.getInt(1));
                 asignaciones.setAlumnoId(rs.getString(2));
                 asignaciones.setCursoId(rs.getInt(3));
-                asignaciones.setFechaAsignacion(rs.getDate(4).toLocalDate());
+                asignaciones.setFechaAsignacion(rs.getTimestamp(4).toLocalDateTime());
                 System.out.println(asignaciones.toString());
                 lista.add(asignaciones);
             }          

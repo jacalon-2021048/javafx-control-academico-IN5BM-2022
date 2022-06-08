@@ -22,6 +22,7 @@ import org.in5bm.jhonatanacalon.alexperez.system.Principal;
 import java.sql.Date;
 import javafx.collections.FXCollections;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 
 /**
  *
@@ -33,7 +34,14 @@ import javafx.scene.control.cell.PropertyValueFactory;
  * @jornada Matutina
  * @grupo 1
  */
-public class InstructoresController implements Initializable { 
+public class InstructoresController implements Initializable{ 
+    private enum Operacion{
+        NINGUNO,GUARDAR,ACTUALIZAR
+    }
+    private Operacion operacion=Operacion.NINGUNO;
+    
+    private final String PAQUETE_IMAGES="org/in5bm/jhonatanacalon/alexperez/resources/images/";
+    
     private Principal escenarioPrincipal;
     
     @FXML
@@ -131,32 +139,52 @@ public class InstructoresController implements Initializable {
     }
     
     @FXML
-    private void clicAgregar(ActionEvent ae){
+    void clicAgregar(ActionEvent ae){
+        switch(operacion){
+            case NINGUNO:
+                habilitarCampos();
+                tblInstructores.setDisable(true);
+                limpiarCampos();
+                btnAgregar.setText("Guardar");
+                imgAgregar.setImage(new Image(PAQUETE_IMAGES+"guardar.png"));
+                btnCambiar.setText("Cancelar");
+                imgCambiar.setImage(new Image(PAQUETE_IMAGES+"cancelar.png"));
+                btnEliminar.setDisable(true);
+                btnReporte.setDisable(true);
+                operacion=Operacion.GUARDAR;
+                break;
+                
+            case GUARDAR:
+                if(evaluacionCamposVacios()){
+                    
+                }
+                
+                break;
+        }
+    }
+
+    @FXML
+    void clicCambiar(ActionEvent ae){
         
     }
 
     @FXML
-    private void clicCambiar(ActionEvent ae){
-        
-    }
-
-    @FXML
-    private void clicEliminar(ActionEvent ae){
+    void clicEliminar(ActionEvent ae){
 
     }    
        
     @FXML
-    private void clicReporte(ActionEvent ae){
+    void clicReporte(ActionEvent ae){
 
     }
     
     @FXML
-    private void clicRegresar(MouseEvent me){
+    void clicRegresar(MouseEvent me){
         escenarioPrincipal.mostrarEscenaPrincipal();
     }
     
     @FXML
-    private void seleccionarElemento(){
+    void seleccionarElemento(){
         
     }
     
@@ -215,6 +243,22 @@ public class InstructoresController implements Initializable {
         colNacimiento.setCellValueFactory(new PropertyValueFactory<Instructores,Date>("fechaNacimiento"));
     }
     
+    private void habilitarCampos(){
+        
+    }
+    
+    private void deshabilitarCampos(){
+        
+    }
+    
+    private void limpiarCampos(){
+        
+    }
+    
+    private boolean evaluacionCamposVacios(){
+        return ((!(txtNombre1.getText().isEmpty())) && (!(txtApellido1.getText().isEmpty()))  
+                &&  (!(txtEmail.getText().isEmpty())) && (!(txtTelefono.getText().isEmpty())));
+    }
     
     public Principal getEscenarioPrincipal(){
         return escenarioPrincipal;
