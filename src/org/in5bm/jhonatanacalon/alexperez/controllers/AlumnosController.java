@@ -42,7 +42,7 @@ import org.in5bm.jhonatanacalon.alexperez.models.Alumnos;
 public class AlumnosController implements Initializable{    
     private enum Operacion{
         NINGUNO,GUARDAR,ACTUALIZAR
-    }    
+    }
     private Operacion operacion=Operacion.NINGUNO;
     
     private final String PAQUETE_IMAGES="org/in5bm/jhonatanacalon/alexperez/resources/images/";

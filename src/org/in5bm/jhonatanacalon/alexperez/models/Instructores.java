@@ -1,6 +1,6 @@
 package org.in5bm.jhonatanacalon.alexperez.models;
 
-import java.sql.Date;
+import java.time.LocalDate;
 /**
  *
  * @author Jhonatan Jose Acalón Ajanel <jacalon-2021048@kinal.edu.gt>
@@ -21,7 +21,7 @@ public class Instructores{
     private String direccion;
     private String email;
     private String telefono;
-    private Date fechaNacimiento;
+    private LocalDate fechaNacimiento;
     
     public Instructores(){
         
@@ -35,7 +35,7 @@ public class Instructores{
         this.telefono=telefono;
     }
 
-    public Instructores(int id,String nombre1,String nombre2,String nombre3,String apellido1,String apellido2,String direccion,String email,String telefono,Date fechaNacimiento){
+    public Instructores(int id,String nombre1,String nombre2,String nombre3,String apellido1,String apellido2,String direccion,String email,String telefono,LocalDate fechaNacimiento){
         this.id=id;
         this.nombre1=nombre1;
         this.nombre2=nombre2;
@@ -124,11 +124,11 @@ public class Instructores{
         this.telefono=telefono;
     }
 
-    public Date getFechaNacimiento(){
+    public LocalDate getFechaNacimiento(){
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento){
+    public void setFechaNacimiento(LocalDate fechaNacimiento){
         this.fechaNacimiento=fechaNacimiento;
     }
 

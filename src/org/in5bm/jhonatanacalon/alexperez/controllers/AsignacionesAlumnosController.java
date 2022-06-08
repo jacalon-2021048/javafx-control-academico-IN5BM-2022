@@ -178,19 +178,23 @@ public class AsignacionesAlumnosController implements Initializable{
     }
 
     @FXML
-    private void clicAgregar(ActionEvent event) {
+    void clicAgregar(ActionEvent ae) {
+        
     }
 
     @FXML
-    private void clicCambiar(ActionEvent event) {
+    void clicCambiar(ActionEvent ae) {
+        
     }
 
     @FXML
-    private void clicEliminar(ActionEvent event) {
+    void clicEliminar(ActionEvent ae) {
+        
     }
 
     @FXML
-    private void clicReporte(ActionEvent event) {
+    void clicReporte(ActionEvent ae) {
+        
     }
     
     
