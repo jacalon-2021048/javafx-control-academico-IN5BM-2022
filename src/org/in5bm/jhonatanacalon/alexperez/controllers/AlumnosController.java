@@ -262,7 +262,6 @@ public class AlumnosController implements Initializable{
                     Optional<ButtonType> result=alerta.showAndWait();
                     if(result.get().equals(ButtonType.OK)){
                         if(eliminarAlumno()){
-                            eliminarAlumno();
                             limpiarCampos();
                             cargarDatos();
                             Alert info=new Alert(Alert.AlertType.INFORMATION);

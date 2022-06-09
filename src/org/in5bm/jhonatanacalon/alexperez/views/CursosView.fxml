@@ -59,7 +59,7 @@
                                     <Insets />
                                  </HBox.margin>
                                  <graphic>
-                                    <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="imgAgregar" fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../resources/images/agregar.png" />
                                        </image>
@@ -78,7 +78,7 @@
                                     <Insets />
                                  </HBox.margin>
                                  <graphic>
-                                    <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="imgCambiar" fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../resources/images/modificar.png" />
                                        </image>
@@ -97,7 +97,7 @@
                                     <Insets />
                                  </HBox.margin>
                                  <graphic>
-                                    <ImageView fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
+                                    <ImageView fx:id="imgEliminar" fitHeight="65.0" fitWidth="65.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
                                           <Image url="@../resources/images/eliminar.png" />
                                        </image>
@@ -215,7 +215,7 @@
                               <Insets />
                            </GridPane.margin>
                         </Label>
-                        <TextField fx:id="txtNombre" GridPane.columnIndex="3" />
+                        <TextField fx:id="txtNombreCurso" GridPane.columnIndex="3" />
                         <Label text="ID:">
                            <font>
                               <Font name="Georgia" size="14.0" />
@@ -236,17 +236,17 @@
                         <Image url="@../resources/images/regresar.png" />
                      </image>
                   </ImageView>
-                  <TableView fx:id="tblCursos" layoutX="13.0" layoutY="140.0" prefHeight="460.0" prefWidth="810.0">
+                  <TableView fx:id="tblCursos" layoutX="13.0" layoutY="140.0" onKeyReleased="#seleccionarElemento" onMouseClicked="#seleccionarElemento" prefHeight="460.0" prefWidth="810.0">
                     <columns>
                       <TableColumn fx:id="colId" prefWidth="90.0" text="ID" />
                       <TableColumn fx:id="colNombreCurso" prefWidth="90.0" text="Nombre Curso" />
                         <TableColumn fx:id="colCiclo" prefWidth="90.0" text="Ciclo" />
-                        <TableColumn fx:id="colCupoMaximo" prefWidth="90.0" text="Cupo Maximo" />
-                        <TableColumn fx:id="colCupoMinimo" prefWidth="90.0" text="Cupo Minimo" />
-                        <TableColumn fx:id="colIdCarrera" prefWidth="90.0" text="ID Carrera" />
-                        <TableColumn fx:id="colIdHorario" prefWidth="90.0" text="ID Horario" />
-                        <TableColumn fx:id="colIdInstructor" prefWidth="90.0" text="ID Instructor" />
-                        <TableColumn fx:id="colIdSalon" prefWidth="90.0" text="ID Salón" />
+                        <TableColumn fx:id="colMaximo" prefWidth="90.0" text="Cupo Maximo" />
+                        <TableColumn fx:id="colMinimo" prefWidth="90.0" text="Cupo Minimo" />
+                        <TableColumn fx:id="colCodigoTecnico" prefWidth="90.0" text="ID Carrera" />
+                        <TableColumn fx:id="colHorario" prefWidth="90.0" text="ID Horario" />
+                        <TableColumn fx:id="colInstructor" prefWidth="90.0" text="ID Instructor" />
+                        <TableColumn fx:id="colSalon" prefWidth="90.0" text="ID Salón" />
                     </columns>
                   </TableView>
                </children>

@@ -15,12 +15,12 @@ import javafx.scene.input.MouseEvent;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javafx.collections.ObservableList;
 import org.in5bm.jhonatanacalon.alexperez.db.Conexion;
 import org.in5bm.jhonatanacalon.alexperez.models.Instructores;
 import org.in5bm.jhonatanacalon.alexperez.system.Principal;
-import java.sql.Date;
 import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.scene.control.Alert;
@@ -406,7 +406,7 @@ public class InstructoresController implements Initializable{
         colDireccion.setCellValueFactory(new PropertyValueFactory<Instructores,String>("direccion"));
         colEmail.setCellValueFactory(new PropertyValueFactory<Instructores,String>("email"));
         colTelefono.setCellValueFactory(new PropertyValueFactory<Instructores,String>("telefono"));
-        colNacimiento.setCellValueFactory(new PropertyValueFactory<Instructores,Date>("fechaNacimiento"));
+        colNacimiento.setCellValueFactory(new PropertyValueFactory<Instructores,LocalDate>("fechaNacimiento"));
     }
     
     private void habilitarCampos(){
