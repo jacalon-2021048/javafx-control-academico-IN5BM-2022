@@ -170,6 +170,7 @@ public class HorariosController implements Initializable{
                         limpiarCampos();
                         limpiarLabel();
                         deshabilitarCampos();
+                        cargarDatos();
                         tblHorarios.setDisable(false);
                         btnAgregar.setText("Agregar");
                         imgAgregar.setImage(new Image(PAQUETE_IMAGES+"agregar.png"));
@@ -221,12 +222,25 @@ public class HorariosController implements Initializable{
             case ACTUALIZAR:
                 if(existeElementoSeleccionado()){
                     if(evaluacionCamposVacios()){
-                        //ESPACIO PARA EL METODO MODIFICAR
+                        if(actualizarHorario()){
+                            limpiarCampos();
+                            limpiarLabel();
+                            cargarDatos();
+                            deshabilitarCampos();
+                            tblHorarios.setDisable(false);
+                            tblHorarios.getSelectionModel().clearSelection();
+                            btnCambiar.setText("Cambiar");
+                            imgCambiar.setImage(new Image(PAQUETE_IMAGES+"modificar.png"));
+                            btnEliminar.setText("Eliminar");
+                            imgEliminar.setImage(new Image(PAQUETE_IMAGES+"eliminar.png"));
+                            btnAgregar.setDisable(false);
+                            btnReporte.setDisable(false);
+                            operacion=Operacion.NINGUNO;
+                        }
                     }else{
                         camposObligatorios();
                     }
-                }
-                
+                } 
                 break;
         }
     }
@@ -245,7 +259,18 @@ public class HorariosController implements Initializable{
                     stage.getIcons().add(icon);
                     Optional<ButtonType> result=alerta.showAndWait();
                     if(result.get().equals(ButtonType.OK)){
-                        //ESPACIO PARA ELIMINAR HORARIOS                        
+                        if(eliminarHorario()){
+                            limpiarCampos();
+                            cargarDatos();
+                            Alert info=new Alert(Alert.AlertType.INFORMATION);
+                            info.setTitle("Control Académico - AVISO!!!");
+                            info.setHeaderText(null);
+                            info.setContentText("El registro se ha eliminado correctamente");
+                            info.show();
+                            Stage stag=(Stage) info.getDialogPane().getScene().getWindow();
+                            Image ico=new Image(PAQUETE_IMAGES+"icono.png");
+                            stag.getIcons().add(ico);
+                        }
                     }else if(result.get().equals(ButtonType.CANCEL)){
                         alerta.close();
                         tblHorarios.getSelectionModel().clearSelection();
@@ -328,30 +353,95 @@ public class HorariosController implements Initializable{
             pstmt.execute();
             listaHorarios.add(horarios);
             return true;
-        }catch(SQLException e){
-                System.err.println("\nSe produjo un error al insertar el siguiente registro: " + horarios.toString());
-                e.printStackTrace();
-            }catch(Exception e){
-                e.printStackTrace();
-            }finally{
-                try{
-                    if(pstmt!=null){
-                        pstmt.close();
-                    }
-                }catch(Exception e){
-                    e.printStackTrace();
+        }catch (SQLException e) {
+            System.err.println("\nSe produjo un error al insertar el siguiente registro: " + horarios.toString());
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+        }
         return false;
     }
     
-    /*private boolean actualizarHorario(){
+    private boolean actualizarHorario(){
+        Horarios horarios=new Horarios();
+        horarios.setId(Integer.parseInt(txtId.getText()));        
+        horarios.setHorarioInicio(tpHorarioInicio.getValue());
+        horarios.setHorarioFinal(tpHorarioFinal.getValue());
+        horarios.setLunes(chkLunes.isSelected());
+        horarios.setMartes(chkMartes.isSelected());
+        horarios.setMiercoles(chkMiercoles.isSelected());
+        horarios.setJueves(chkJueves.isSelected());
+        horarios.setViernes(chkViernes.isSelected());
+        PreparedStatement pstmt=null;
         
-    }*/
+        try{
+            pstmt=Conexion.getInstance().getConexion()
+                    .prepareCall("{CALL sp_horarios_update(?,?,?,?,?,?,?,?)}");
+            pstmt.setInt(1,horarios.getId());
+            pstmt.setString(2,String.valueOf(horarios.getHorarioInicio()));
+            pstmt.setString(3,String.valueOf(horarios.getHorarioFinal()));
+            pstmt.setString(4,String.valueOf(enviarDatosBD(horarios.getLunes())));
+            pstmt.setString(5,String.valueOf(enviarDatosBD(horarios.getMartes())));
+            pstmt.setString(6,String.valueOf(enviarDatosBD(horarios.getMiercoles())));
+            pstmt.setString(7,String.valueOf(enviarDatosBD(horarios.getJueves())));
+            pstmt.setString(8,String.valueOf(enviarDatosBD(horarios.getViernes())));
+            System.out.println(pstmt.toString());
+            pstmt.execute();
+            return true;
+        }catch (SQLException e) {
+            System.err.println("\nSe produjo un error al modificar el siguiente registro: " + horarios.toString());
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (pstmt != null) {
+                    pstmt.close();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
     
-    /*private boolean eliminarHorario(){
-        
-    }*/
+    private boolean eliminarHorario(){
+        if(existeElementoSeleccionado()){
+            Horarios horario=((Horarios)tblHorarios.getSelectionModel().getSelectedItem());
+            PreparedStatement pstmt=null;
+            
+            try {
+                pstmt=Conexion.getInstance().getConexion()
+                        .prepareCall("{CALL sp_horarios_delete(?)}");
+                pstmt.setInt(1,horario.getId());
+                System.out.println(pstmt.toString());
+                pstmt.execute();
+                return true;
+            } catch (SQLException e) {
+                System.err.println("\nSe produjo un error al eliminar el siguiente registro: " + horario.toString());
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (pstmt != null) {
+                        pstmt.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }            
+        }
+        return false;
+    }
     
     private byte enviarDatosBD(boolean a){
         if(a==true){
@@ -370,7 +460,8 @@ public class HorariosController implements Initializable{
         ResultSet rs=null;
         
         try {
-            pstmt=Conexion.getInstance().getConexion().prepareCall("CALL sp_horarios_read()");
+            pstmt=Conexion.getInstance().getConexion()
+                    .prepareCall("{CALL sp_horarios_read()}");
             rs=pstmt.executeQuery();
             while(rs.next()){
                 Horarios horarios=new Horarios();
@@ -381,12 +472,15 @@ public class HorariosController implements Initializable{
                 horarios.setMartes(evaluacionDatos(rs,5));
                 horarios.setMiercoles(evaluacionDatos(rs,6));
                 horarios.setJueves(evaluacionDatos(rs,7));
-                horarios.setViernes(evaluacionDatos(rs,8));              
+                horarios.setViernes(evaluacionDatos(rs,8));
                 lista.add(horarios);
             }
             listaHorarios=FXCollections.observableArrayList(lista);
         }catch(SQLException e){
             System.err.println("\nSe produjo un error al consultar la tabla de Horarios");
+            System.out.println("Message: " + e.getMessage());
+            System.out.println("Error code: " + e.getErrorCode());
+            System.out.println("SQLState: " + e.getSQLState());
             e.printStackTrace();
         }catch(Exception e){
             e.printStackTrace();
@@ -412,11 +506,11 @@ public class HorariosController implements Initializable{
         tpHorarioInicio.set24HourView(false);
         
         StringConverter<LocalTime> defaultConverter
-                =new LocalTimeStringConverter(FormatStyle. SHORT,Locale.US);
+                =new LocalTimeStringConverter(FormatStyle. SHORT,Locale.UK);
         tpHorarioFinal.setConverter(defaultConverter);
         
         StringConverter<LocalTime> defaultConverter2
-                =new LocalTimeStringConverter(FormatStyle.SHORT,Locale.US);
+                =new LocalTimeStringConverter(FormatStyle.SHORT,Locale.UK);
         tpHorarioInicio.setConverter(defaultConverter2);
     }
     
@@ -430,7 +524,6 @@ public class HorariosController implements Initializable{
         Image ico=new Image(PAQUETE_IMAGES+"icono.png");
         stage.getIcons().add(ico);
     }
-    
     
     private void cargarDatos(){
         tblHorarios.setItems(getHorarios());
@@ -490,7 +583,7 @@ public class HorariosController implements Initializable{
         lblHorarioFinal.setText("");
     }
     
-    private boolean evaluacionCamposVacios() {
+    private boolean evaluacionCamposVacios(){
         return (!(tpHorarioInicio.getValue()==null) && (!(tpHorarioFinal.getValue()==null)));
     }
     

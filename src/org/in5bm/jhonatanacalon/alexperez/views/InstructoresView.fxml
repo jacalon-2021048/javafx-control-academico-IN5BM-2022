@@ -143,18 +143,18 @@
                   <TableView fx:id="tblInstructores" layoutX="6.0" layoutY="134.0" onKeyReleased="#seleccionarElemento" onMouseClicked="#seleccionarElemento" prefHeight="470.0" prefWidth="855.0">
                     <columns>
                       <TableColumn fx:id="colId" maxWidth="50.0" minWidth="50.0" prefWidth="50.0" text="ID" />
-                      <TableColumn fx:id="colNombre1" maxWidth="89.44444444" minWidth="89.44444444" prefWidth="89.44444444" text="Nombre 1" />
-                        <TableColumn fx:id="colNombre2" maxWidth="89.44444444" minWidth="89.44444444" prefWidth="89.44444444" text="Nombre 2" />
-                        <TableColumn fx:id="colNombre3" maxWidth="89.44444444" minWidth="89.44444444" prefWidth="89.44444444" text="Nombre 3" />
-                        <TableColumn fx:id="colApellido1" maxWidth="89.44444444" minWidth="89.44444444" prefWidth="89.44444444" text="Apellido 1" />
-                        <TableColumn fx:id="colApellido2" maxWidth="89.44444444" minWidth="89.44444444" prefWidth="89.44444444" text="Apellido 2" />
-                        <TableColumn fx:id="colDireccion" maxWidth="89.44444444" minWidth="89.44444444" prefWidth="89.44444444" text="Dirección" />
-                        <TableColumn fx:id="colEmail" maxWidth="89.44444444" minWidth="89.44444444" prefWidth="89.44444444" text="Email" />
-                        <TableColumn fx:id="colTelefono" maxWidth="89.44444444" minWidth="89.44444444" prefWidth="89.44444444" text="Teléfono" />
-                        <TableColumn fx:id="colNacimiento" maxWidth="89.44444444" minWidth="89.44444444" prefWidth="89.44444444" text="Nacimiento" />
+                      <TableColumn fx:id="colNombre1" maxWidth="65.0" minWidth="65.0" prefWidth="65.0" text="Nombre 1" />
+                        <TableColumn fx:id="colNombre2" maxWidth="65.0" minWidth="65.0" prefWidth="65.0" text="Nombre 2" />
+                        <TableColumn fx:id="colNombre3" maxWidth="65.0" minWidth="65.0" prefWidth="65.0" text="Nombre 3" />
+                        <TableColumn fx:id="colApellido1" maxWidth="65.0" minWidth="65.0" prefWidth="65.0" text="Apellido 1" />
+                        <TableColumn fx:id="colApellido2" maxWidth="65.0" minWidth="65.0" prefWidth="65.0" text="Apellido 2" />
+                        <TableColumn fx:id="colDireccion" maxWidth="187.0" minWidth="187.0" prefWidth="187.0" text="Dirección" />
+                        <TableColumn fx:id="colEmail" maxWidth="150.0" minWidth="150.0" prefWidth="150.0" text="Email" />
+                        <TableColumn fx:id="colTelefono" maxWidth="65.0" minWidth="65.0" prefWidth="65.0" text="Teléfono" />
+                        <TableColumn fx:id="colNacimiento" maxWidth="70.0" minWidth="70.0" prefWidth="70.0" text="Nacimiento" />
                     </columns>
                   </TableView>
-                  <GridPane layoutX="9.0" layoutY="6.0" prefHeight="120.0" prefWidth="850.0">
+                  <GridPane layoutX="9.0" layoutY="14.0" prefHeight="108.0" prefWidth="850.0">
                     <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="90.0" minWidth="68.79999389648438" prefWidth="73.59998168945313" />
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="101.60000610351562" minWidth="10.0" prefWidth="92.99996337890624" />
@@ -216,22 +216,22 @@
                            </GridPane.margin>
                         </Label>
                         <TextField fx:id="txtApellido1" GridPane.columnIndex="9" />
-                        <Label fx:id="lblNombre1" text="Campo obligatorio" textFill="RED" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                        <Label fx:id="lblNombre1" textFill="RED" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1">
                            <font>
                               <Font name="Georgia" size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblNombre2" text="Label" textFill="RED" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                        <Label fx:id="lblNombre2" textFill="RED" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="1">
                            <font>
                               <Font name="Georgia" size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblNombre3" text="Label" textFill="RED" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                        <Label fx:id="lblNombre3" textFill="RED" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="1">
                            <font>
                               <Font name="Georgia" size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblApellido1" text="Label" textFill="RED" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="1">
+                        <Label fx:id="lblApellido1" textFill="RED" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="1">
                            <font>
                               <Font name="Georgia" size="14.0" />
                            </font>
@@ -280,27 +280,27 @@
                               <Insets />
                            </GridPane.margin>
                         </Label>
-                        <Label fx:id="lblApellido2" text="Label" textFill="RED" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                        <Label fx:id="lblApellido2" textFill="RED" GridPane.columnSpan="2" GridPane.rowIndex="3">
                            <font>
                               <Font name="Georgia" size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblDireccion" text="Label" textFill="RED" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                        <Label fx:id="lblDireccion" textFill="RED" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3">
                            <font>
                               <Font name="Georgia" size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblEmail" text="Label" textFill="RED" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                        <Label fx:id="lblEmail" textFill="RED" GridPane.columnIndex="4" GridPane.columnSpan="2" GridPane.rowIndex="3">
                            <font>
                               <Font name="Georgia" size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblTelefono" text="Label" textFill="RED" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                        <Label fx:id="lblTelefono" textFill="RED" GridPane.columnIndex="6" GridPane.columnSpan="2" GridPane.rowIndex="3">
                            <font>
                               <Font name="Georgia" size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblNacimiento" text="Label" textFill="RED" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="3">
+                        <Label fx:id="lblNacimiento" textFill="RED" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="3">
                            <font>
                               <Font name="Georgia" size="14.0" />
                            </font>

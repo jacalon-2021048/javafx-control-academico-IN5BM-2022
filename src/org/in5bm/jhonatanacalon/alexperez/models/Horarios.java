@@ -112,10 +112,6 @@ public class Horarios{
 
     @Override
     public String toString() {
-        return "Horarios{" + "id=" + id + ", horarioInicio=" + horarioInicio + ", horarioFinal=" + horarioFinal 
-                + ", lunes=" + lunes 
-                + ", martes=" + martes 
-                + ", miercoles=" + miercoles 
-                + ", jueves=" + jueves + ", viernes=" + viernes + '}';
+        return id + " | " + horarioInicio + " | " + horarioFinal;
     }       
 }

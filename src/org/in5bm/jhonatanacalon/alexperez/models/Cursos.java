@@ -159,6 +159,6 @@ public class Cursos{
 
     @Override
     public String toString() {
-        return id + " | " + nombreCurso;
+        return id.get() + " | " + nombreCurso.get();
     }
 }

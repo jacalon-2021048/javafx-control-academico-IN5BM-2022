@@ -568,7 +568,7 @@ public class AlumnosController implements Initializable{
         txtNombre2.clear();
         txtNombre3.clear();
         txtApellido1.clear();
-        txtApellido2.clear();        
+        txtApellido2.clear();
     }
     
     private void limpiarLabel(){

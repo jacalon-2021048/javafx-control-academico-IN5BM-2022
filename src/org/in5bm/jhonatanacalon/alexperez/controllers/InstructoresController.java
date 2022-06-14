@@ -171,6 +171,7 @@ public class InstructoresController implements Initializable{
     
     @Override
     public void initialize(URL url, ResourceBundle rb){
+        deshabilitarCampos();
         cargarDatos();
     }
     
@@ -193,7 +194,19 @@ public class InstructoresController implements Initializable{
             case GUARDAR:
                 if(evaluacionCamposVacios()){
                     if(evaluacionCantCar()){
-                        //ESPACIO AGREGAR INSTRUCTOR
+                        if(agregarInstructor()){
+                            limpiarCampos();
+                            limpiarLabel();
+                            deshabilitarCampos();
+                            tblInstructores.setDisable(false);
+                            btnAgregar.setText("Agregar");
+                            imgAgregar.setImage(new Image(PAQUETE_IMAGES+"agregar.png"));
+                            btnCambiar.setText("Cambiar");
+                            imgCambiar.setImage(new Image(PAQUETE_IMAGES+"modificar.png"));
+                            btnEliminar.setDisable(false);
+                            btnReporte.setDisable(false);
+                            operacion=Operacion.NINGUNO;
+                        }
                     }else{
                         evaluacionDigitos();
                     }
@@ -241,7 +254,21 @@ public class InstructoresController implements Initializable{
                 if(existeElementoSeleccionado()){
                     if(evaluacionCamposVacios()){
                         if(evaluacionCantCar()){
-                            //ESPACIO ACTUALIZAR INSTRUCTORES
+                            if(actualizarInstructor()){
+                                limpiarCampos();
+                                limpiarLabel();
+                                cargarDatos();
+                                deshabilitarCampos();
+                                tblInstructores.setDisable(false);
+                                tblInstructores.getSelectionModel().clearSelection();
+                                btnCambiar.setText("Cambiar");
+                                imgCambiar.setImage(new Image(PAQUETE_IMAGES+"modificar.png"));
+                                btnEliminar.setText("Eliminar");
+                                imgEliminar.setImage(new Image(PAQUETE_IMAGES+"eliminar.png"));
+                                btnAgregar.setDisable(false);
+                                btnReporte.setDisable(false);
+                                operacion=Operacion.NINGUNO;
+                            }
                         }else{
                             evaluacionDigitos();
                         }
@@ -267,7 +294,18 @@ public class InstructoresController implements Initializable{
                     stage.getIcons().add(icon);
                     Optional<ButtonType> result=alerta.showAndWait();
                     if(result.get().equals(ButtonType.OK)){
-                        //ESPACIO ELIMINAR INSTRUCTOR
+                        if(eliminarInstructor()){
+                            limpiarCampos();
+                            cargarDatos();
+                            Alert info=new Alert(Alert.AlertType.INFORMATION);
+                            info.setTitle("Control Académico - AVISO!!!");
+                            info.setHeaderText(null);
+                            info.setContentText("El registro se ha eliminado correctamente");
+                            info.show();
+                            Stage stag=(Stage) info.getDialogPane().getScene().getWindow();
+                            Image ico=new Image(PAQUETE_IMAGES+"icono.png");
+                            stag.getIcons().add(ico);
+                        }
                     }else if(result.get().equals(ButtonType.CANCEL)){
                         alerta.close();
                         tblInstructores.getSelectionModel().clearSelection();
@@ -327,18 +365,137 @@ public class InstructoresController implements Initializable{
         }
     }
     
-    /*private boolean agregarInstructor(){
+    private boolean agregarInstructor(){
+        Instructores instructores=new Instructores();
+        instructores.setNombre1(txtNombre1.getText());
+        instructores.setNombre2(txtNombre2.getText());
+        instructores.setNombre3(txtNombre3.getText());
+        instructores.setApellido1(txtApellido1.getText());
+        instructores.setApellido2(txtApellido2.getText());
+        instructores.setDireccion(txtDireccion.getText());
+        instructores.setEmail(txtEmail.getText());
+        instructores.setTelefono(txtTelefono.getText());
+        instructores.setFechaNacimiento(evaluacionfecha(dtpNacimiento.getValue()));
+        PreparedStatement pstmt=null;
         
-    }*/
+        try{
+            pstmt=Conexion.getInstance().getConexion()
+                    .prepareCall("{CALL sp_instructores_create(?,?,?,?,?,?,?,?,?)}");
+            pstmt.setString(1,instructores.getNombre1());
+            pstmt.setString(2,instructores.getNombre2());
+            pstmt.setString(3,instructores.getNombre3());
+            pstmt.setString(4,instructores.getApellido1());
+            pstmt.setString(5,instructores.getApellido2());
+            pstmt.setString(6,instructores.getDireccion());
+            pstmt.setString(7,instructores.getEmail());
+            pstmt.setString(8,instructores.getTelefono());
+            pstmt.setString(9,String.valueOf(instructores.getFechaNacimiento()));
+            System.out.println(pstmt.toString());
+            pstmt.execute();
+            listaInstructores.add(instructores);
+            return true;
+        }catch(SQLException e){
+            System.err.println("\nSe produjo un error al insertar el siguiente registro: " + instructores.toString());
+            e.printStackTrace();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(pstmt != null){
+                    pstmt.close();
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
     
-    /*private boolean actualizarInstructor(){
+    private boolean actualizarInstructor(){
+        Instructores instructores=new Instructores();
+        instructores.setId(Integer.parseInt(txtId.getText()));
+        instructores.setNombre1(txtNombre1.getText());
+        instructores.setNombre2(txtNombre2.getText());
+        instructores.setNombre3(txtNombre3.getText());
+        instructores.setApellido1(txtApellido1.getText());
+        instructores.setApellido2(txtApellido2.getText());
+        instructores.setDireccion(txtDireccion.getText());
+        instructores.setEmail(txtEmail.getText());
+        instructores.setTelefono(txtTelefono.getText());
+        instructores.setFechaNacimiento(dtpNacimiento.getValue());
+        PreparedStatement pstmt=null;
         
-    }*/
+        try{
+            pstmt=Conexion.getInstance().getConexion()
+                    .prepareCall("{CALL sp_instructores_update(?,?,?,?,?,?,?,?,?,?)}");
+            pstmt.setInt(1,instructores.getId());
+            pstmt.setString(2,instructores.getNombre1());
+            pstmt.setString(3,instructores.getNombre2());
+            pstmt.setString(4,instructores.getNombre3());
+            pstmt.setString(5,instructores.getApellido1());
+            pstmt.setString(6,instructores.getApellido2());
+            pstmt.setString(7,instructores.getDireccion());
+            pstmt.setString(8,instructores.getEmail());
+            pstmt.setString(9,instructores.getTelefono());
+            pstmt.setString(10,String.valueOf(instructores.getFechaNacimiento()));
+            System.out.println(pstmt.toString());
+            pstmt.execute();
+            return true;
+        }catch(SQLException e){
+            System.err.println("\nSe produjo un error al insertar el siguiente registro: " + instructores.toString());
+            e.printStackTrace();
+        }catch(Exception e){
+            e.printStackTrace();
+        }finally{
+            try{
+                if(pstmt != null){
+                    pstmt.close();
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+        
+        return false;        
+    }
     
-    /*private boolean eliminarInstructor(){
-        
-    }*/
+    private boolean eliminarInstructor(){
+        if (existeElementoSeleccionado()) {
+            Instructores instructor = ((Instructores) tblInstructores.getSelectionModel().getSelectedItem());
+            PreparedStatement pstmt = null;
 
+            try {
+                pstmt = Conexion.getInstance().getConexion()
+                        .prepareCall("{CALL sp_instructores_delete(?)}");
+                pstmt.setInt(1, instructor.getId());
+                System.out.println(pstmt.toString());
+                pstmt.execute();
+                return true;
+            } catch (SQLException e) {
+                System.err.println("\nSe produjo un error al eliminar el siguiente registro: " + instructor.toString());
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (pstmt != null) {
+                        pstmt.close();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+    
+    private LocalDate evaluacionfecha(LocalDate ldt){
+        if(dtpNacimiento.getValue()==null){
+            return LocalDate.now();
+        }
+        return ldt;
+    }
+    
     private boolean existeElementoSeleccionado(){
         return (tblInstructores.getSelectionModel().getSelectedItem()!=null);
     }
@@ -410,19 +567,75 @@ public class InstructoresController implements Initializable{
     }
     
     private void habilitarCampos(){
+        txtId.setEditable(false);
+        txtNombre1.setEditable(true);
+        txtNombre2.setEditable(true);
+        txtNombre3.setEditable(true);
+        txtApellido1.setEditable(true);
+        txtApellido2.setEditable(true);
+        txtDireccion.setEditable(true);
+        txtEmail.setEditable(true);
+        txtTelefono.setEditable(true);
         
+        txtId.setDisable(true);
+        txtNombre1.setDisable(false);
+        txtNombre2.setDisable(false);
+        txtNombre3.setDisable(false);
+        txtApellido1.setDisable(false);
+        txtApellido2.setDisable(false);
+        txtDireccion.setDisable(false);
+        txtEmail.setDisable(false);
+        txtTelefono.setDisable(false);
+        dtpNacimiento.setDisable(false);
     }
     
     private void deshabilitarCampos(){
+        txtId.setEditable(false);
+        txtNombre1.setEditable(false);
+        txtNombre2.setEditable(false);
+        txtNombre3.setEditable(false);
+        txtApellido1.setEditable(false);
+        txtApellido2.setEditable(false);
+        txtDireccion.setEditable(false);
+        txtEmail.setEditable(false);
+        txtTelefono.setEditable(false);
+        dtpNacimiento.setEditable(false);
         
+        txtId.setDisable(true);
+        txtNombre1.setDisable(true);
+        txtNombre2.setDisable(true);
+        txtNombre3.setDisable(true);
+        txtApellido1.setDisable(true);
+        txtApellido2.setDisable(true);
+        txtDireccion.setDisable(true);
+        txtEmail.setDisable(true);
+        txtTelefono.setDisable(true);
+        dtpNacimiento.setDisable(true);
     }
     
     private void limpiarCampos(){
-        
+        txtId.clear();
+        txtNombre1.clear();
+        txtNombre2.clear();
+        txtNombre3.clear();
+        txtApellido1.clear();
+        txtApellido2.clear();
+        txtDireccion.clear();
+        txtEmail.clear();
+        txtTelefono.clear();
+        dtpNacimiento.getEditor().clear();
     }
     
     private void limpiarLabel(){
-        
+        lblNombre1.setText("");
+        lblNombre2.setText("");
+        lblNombre3.setText("");
+        lblApellido1.setText("");
+        lblApellido2.setText("");
+        lblDireccion.setText("");
+        lblEmail.setText("");
+        lblTelefono.setText("");
+        lblNacimiento.setText("");
     }
     
     private boolean evaluacionCamposVacios(){

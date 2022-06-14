@@ -84,4 +84,9 @@ public class AsignacionesAlumnos{
     public void setFechaAsignacion(LocalDateTime fechaAsignacion) {
         this.fechaAsignacion.set(fechaAsignacion);
     }
+
+    @Override
+    public String toString() {
+        return "AsignacionesAlumnos{" + "id=" + id + ", alumnoId=" + alumnoId + ", cursoId=" + cursoId + ", fechaAsignacion=" + fechaAsignacion + '}';
+    }
 }
