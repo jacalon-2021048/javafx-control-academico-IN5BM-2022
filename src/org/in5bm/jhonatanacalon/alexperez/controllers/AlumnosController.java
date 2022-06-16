@@ -20,6 +20,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -28,6 +30,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.in5bm.jhonatanacalon.alexperez.db.Conexion;
 import org.in5bm.jhonatanacalon.alexperez.models.Alumnos;
+import org.in5bm.jhonatanacalon.alexperez.reports.GenerarReporte;
 
 /**
  *
@@ -301,6 +304,7 @@ public class AlumnosController implements Initializable{
     
     @FXML
     void clicReporte(ActionEvent ae) throws URISyntaxException{
+        /*
         Alert alerta=new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle("Control Academico - AVISO!!!");
         alerta.setHeaderText(null);
@@ -309,6 +313,11 @@ public class AlumnosController implements Initializable{
         Stage stage=(Stage) alerta.getDialogPane().getScene().getWindow();
         Image ico=new Image(PAQUETE_IMAGES+"icono.png");
         stage.getIcons().add(ico);
+        */
+        Map<String,Object> parametros=new HashMap<>();
+        parametros.put("nombre","Jhonatan Acalon");
+        GenerarReporte.getInstance().mostrarReporte("plantilla.jasper",parametros,"Reporte de Alumnos");
+        
     }
     
     @FXML

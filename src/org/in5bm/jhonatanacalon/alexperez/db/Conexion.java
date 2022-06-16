@@ -22,7 +22,7 @@ public class Conexion{
     private final String DB="db_control_academico_in5bm";
     private final String USER="kinal";
     private final String PASSWORD="admin";
-    private Connection conexion;        
+    private Connection conexion;
     private static Conexion instancia;
     
     public static Conexion getInstance(){
@@ -33,7 +33,7 @@ public class Conexion{
     }
     
     private Conexion(){
-        URL="jdbc:mysql://" + IP_SERVER + ":" + PORT + "/" + DB;
+        URL="jdbc:mysql://" + IP_SERVER + ":" + PORT + "/" + DB + "?allowPublicKeyRetrieval=true&serverTimezone=UTC&useSSL=false";
         
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
